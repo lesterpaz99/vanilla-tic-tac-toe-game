@@ -110,6 +110,7 @@ const checkColThreat = () => {
 };
 
 const checkDiagonalThreat = () => {
+	debugger;
 	let result = {
 		isThreat: false,
 		position: { row: null, col: null },
@@ -125,7 +126,9 @@ const checkDiagonalThreat = () => {
 	}
 
 	if (lineTopRightToBottom.join('') === 'XX') {
-		const colToDefend = lineTopLeftToBottom.findIndex((col) => col === null);
+		const colToDefend = lineTopRightToBottom
+			.reverse()
+			.findIndex((col) => col === null);
 		const rowToDefend = colToDefend === 2 ? 0 : colToDefend === 0 ? 2 : 1;
 		result.isThreat = true;
 		result.position = { row: rowToDefend, col: colToDefend };
@@ -231,4 +234,4 @@ const play = () => {
 };
 
 // next steps validate opportunities first before defend when turn of computer
-// play();
+play();
