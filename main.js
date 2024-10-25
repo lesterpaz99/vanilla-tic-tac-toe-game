@@ -61,68 +61,101 @@ const checkWinner = () => {
 	}
 };
 
-const checkRowThreat = () => {
+const checkRow = () => {
 	const result = {
 		isThreat: false,
+		isOpportunity: false,
 		position: { row: null, col: null },
 	};
 
-	const rowToDefend = gameBoard.board.findIndex((row) => row.join('') === 'XX');
+	const rowToAttack = gameBoard.board.findIndex((row) => row.join('') === '00');
+	if (rowToAttack !== -1) {
+		const targetCol = gameBoard.board[rowToAttack].findIndex(
+			(col) => col === null
+		);
 
+		result.isOpportunity = true;
+		result.position = { row: rowToAttack, col: targetCol };
+		return result;
+	}
+
+	const rowToDefend = gameBoard.board.findIndex((row) => row.join('') === 'XX');
 	if (rowToDefend !== -1) {
-		const colToDefend = gameBoard.board[rowToDefend].findIndex(
+		const targetCol = gameBoard.board[rowToDefend].findIndex(
 			(col) => col === null
 		);
 
 		result.isThreat = true;
-		result.position = { row: rowToDefend, col: colToDefend };
+		result.position = { row: rowToDefend, col: targetCol };
 	}
 
 	return result;
 };
 
-const checkColThreat = () => {
+const checkCol = () => {
 	const [row1, row2, row3] = gameBoard.board;
 	const result = {
 		isThreat: false,
+		isOpportunity: false,
 		position: { row: null, col: null },
 	};
 
+	// opportunities first
 	for (let [i, row] of gameBoard.board.entries()) {
-		if (row1[i] === 'X' && row2[i] === 'X' && row3[i] === null) {
-			result.isThreat = true;
+		if (row1[i] === '0' && row2[i] === '0' && row3[i] === null) {
+			result.isOpportunity = true;
 			result.position = { row: 2, col: i };
 			break;
 		}
-		if (row1[i] === 'X' && row3[i] === 'X' && row2[i] === null) {
-			result.isThreat = true;
+		if (row1[i] === '0' && row3[i] === '0' && row2[i] === null) {
+			result.isOpportunity = true;
 			result.position = { row: 1, col: i };
 			break;
 		}
-		if (row2[i] === 'X' && row3[i] === 'X' && row1[i] === null) {
-			result.isThreat = true;
+		if (row2[i] === '0' && row3[i] === '0' && row1[i] === null) {
+			result.isOpportunity = true;
 			result.position = { row: 0, col: i };
 			break;
 		}
 	}
 
+	if (!result.isOpportunity) {
+		for (let [i, row] of gameBoard.board.entries()) {
+			if (row1[i] === 'X' && row2[i] === 'X' && row3[i] === null) {
+				result.isThreat = true;
+				result.position = { row: 2, col: i };
+				break;
+			}
+			if (row1[i] === 'X' && row3[i] === 'X' && row2[i] === null) {
+				result.isThreat = true;
+				result.position = { row: 1, col: i };
+				break;
+			}
+			if (row2[i] === 'X' && row3[i] === 'X' && row1[i] === null) {
+				result.isThreat = true;
+				result.position = { row: 0, col: i };
+				break;
+			}
+		}
+	}
+
 	return result;
 };
 
-const checkDiagonalThreat = () => {
-	debugger;
+const checkDiagonal = () => {
 	let result = {
 		isThreat: false,
+		isOpportunity: false,
 		position: { row: null, col: null },
 	};
 	const [row1, row2, row3] = gameBoard.board;
 	const lineTopLeftToBottom = [row1[0], row2[1], row3[2]];
 	const lineTopRightToBottom = [row1[2], row2[1], row3[0]];
 
-	if (lineTopLeftToBottom.join('') === 'XX') {
-		const colToDefend = lineTopLeftToBottom.findIndex((col) => col === null);
-		result.isThreat = true;
-		result.position = { row: colToDefend, col: colToDefend };
+	if (lineTopLeftToBottom.join('') === '00') {
+		const colToAttack = lineTopLeftToBottom.findIndex((col) => col === null);
+		result.isOpportunity = true;
+		result.position = { row: colToAttack, col: colToAttack };
 	}
 
 	if (lineTopRightToBottom.join('') === 'XX') {
@@ -137,29 +170,40 @@ const checkDiagonalThreat = () => {
 	return result;
 };
 
-const defendAThreat = () => {
+const computerLogic = () => {
 	debugger;
-	const { isThreat: isRowThreat, position: positionToBlockRow } =
-		checkRowThreat();
+	const {
+		isThreat: isRowThreat,
+		isOpportunity: isRowOpportunity,
+		position: rowTargetPosition,
+	} = checkRow();
 
-	if (isRowThreat) {
-		setMark(positionToBlockRow, player0);
+	if (isRowThreat || isRowOpportunity) {
+		setMark(rowTargetPosition, player0);
 		checkWinner();
 		return true;
 	}
 
-	const { isThreat: isColThreat, position: positionToBlockCol } =
-		checkColThreat();
-	if (isColThreat) {
-		setMark(positionToBlockCol, player0);
+	const {
+		isThreat: isColThreat,
+		isOpportunity: isColOpportunity,
+		position: colTargetPosition,
+	} = checkCol();
+
+	if (isColThreat || isColOpportunity) {
+		setMark(colTargetPosition, player0);
 		checkWinner();
 		return true;
 	}
 
-	const { isThreat: isDiagonalThreat, position: positionToBlockDiagonal } =
-		checkDiagonalThreat();
-	if (isDiagonalThreat) {
-		setMark(positionToBlockDiagonal, player0);
+	const {
+		isThreat: isDiagonalThreat,
+		isOpportunity: isDiagOpportunity,
+		position: diagTargetPosition,
+	} = checkDiagonal();
+
+	if (isDiagonalThreat || isDiagOpportunity) {
+		setMark(diagTargetPosition, player0);
 		checkWinner();
 		return true;
 	}
@@ -207,7 +251,7 @@ const play = () => {
 
 		// Player 0 turn
 		const setComputerMark = () => {
-			if (defendAThreat()) return;
+			if (computerLogic()) return;
 
 			const getRandomPosition = () => {
 				return Math.floor(Math.random() * 3);
@@ -233,5 +277,4 @@ const play = () => {
 	}
 };
 
-// next steps validate opportunities first before defend when turn of computer
 play();
