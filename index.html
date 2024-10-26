@@ -3,10 +3,30 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Tic Tac Toe Game</title>
+		<title>Tic Tac Toe</title>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<script type="module" src="./main.js"></script>
+		<div class="logo">Super - Tic Tac Toe</div>
+		<div class="container">
+			<div class="players">
+				<span class="player player-x">Player X</span>
+				<span class="vs">vs</span>
+				<span class="player player-o">Player O</span>
+			</div>
+			<div class="board" id="board">
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+				<div class="cell" data-cell></div>
+			</div>
+			<button id="playBtn" class="play-button">Start Game</button>
+		</div>
+		<script src="script.js"></script>
 	</body>
 </html>

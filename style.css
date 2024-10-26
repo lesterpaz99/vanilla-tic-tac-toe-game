@@ -1,5 +1,119 @@
+/* General reset */
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  background-color: #1E1E2F;
+  color: #F3F4F6;
+  position: relative;
+}
+
+/* Logo */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #E5E7EB;
+  opacity: 0.8;
+}
+
+.container {
+  text-align: center;
+}
+
+/* Players display */
+.players {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.player {
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.player-x {
+  color: #4ADE80;
+}
+
+.player-o {
+  color: #60A5FA;
+}
+
+.vs {
+  color: #9CA3AF;
+}
+
+/* Highlight active player */
+.active {
+  background-color: #2E2E3A;
+}
+
+/* Board styles */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cell {
+  background-color: #2E2E3A;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #9CA3AF;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cell:hover {
+  background-color: #3B3B4D;
+}
+
+.cell.x {
+  color: #4ADE80; /* Green color for X */
+}
+
+.cell.o {
+  color: #60A5FA; /* Blue color for O */
+}
+
+/* play button styles */
+.play-button {
+  background-color: #374151;
+  color: #E5E7EB;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+  background-color: #4B5563;
 }
