@@ -15,8 +15,14 @@ const players = {
 	[player0]: player0,
 };
 
-export const setMark = ({ row, col }, playerMark) => {
+const updateBoard = ([row, col], player) => {
+	const cell = document.querySelector(`[data-cell="${row},${col}"]`);
+	cell.textContent = player;
+};
+
+export const setMark = ([row, col], playerMark) => {
 	game.board[row].splice(col, 1, playerMark);
+	updateBoard([row, col], playerMark);
 };
 
 export const checkWinner = () => {

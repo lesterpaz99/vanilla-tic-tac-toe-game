@@ -8,67 +8,62 @@ import {
 	hasWinner,
 } from './gameFlow.js';
 
-// start game / play turns / game flow
-export const play = () => {
-	debugger;
-	let flattenedBoard = game.board.flat(Infinity);
+const resetGame = () => {
+	game.board = [
+		[null, null, null],
+		[null, null, null],
+		[null, null, null],
+	];
+	game.winner = null;
+};
 
-	while (flattenedBoard.includes(null) && game.winner === null) {
-		// debugger;
+// start
+export const startGame = () => {
+	const inactiveCells = document.querySelectorAll('.cell');
+	const arrCells = Array.from(inactiveCells);
 
-		// Player X turn
-		const setUserMark = () => {
-			const row = Number(prompt('row'));
-			const col = Number(prompt('column'));
+	arrCells.forEach((cell) => {
+		cell.textContent = '';
+		cell.classList.remove('inactive');
+	});
 
-			// validate here that the number is lower than 3
-			// probably it wont be need since in the html each grid will be set to a fixed number
-			// I'll have to disable the grid cell button when is not null so the user cannot select that number
+	resetGame();
+};
 
-			// if the space is free, cool. If not, dont pass the turn.
-			// DRY - pass this into a function => validateEmptyCell
-			if (game.board[row][col] === null) {
-				setMark({ row, col }, playerX);
-				console.log('Board: ', game.board);
-				checkWinner();
-				console.log('Winner: ', game.winner);
-				flattenedBoard = game.board.flat(Infinity);
-				return;
-			}
+// game flow
+export const playTurn = (cellPosition) => {
+	// Player X move
+	const [row, col] = cellPosition;
+	if (game.board[row][col] === null) {
+		setMark([row, col], playerX);
+		checkWinner();
+	}
 
-			// ask user again
-			setUserMark();
+	if (hasWinner()) {
+		return;
+	}
+
+	// Player 0 move
+	const setComputerMark = () => {
+		if (computerLogic()) return;
+
+		const getRandomPosition = () => {
+			return Math.floor(Math.random() * 3);
 		};
-		setUserMark();
 
-		if (hasWinner()) {
+		const row = getRandomPosition();
+		const col = getRandomPosition();
+
+		// if the space is free, cool. If not, dont pass the turn.
+		if (game.board[row][col] === null) {
+			setMark([row, col], player0);
+			checkWinner();
 			return;
 		}
 
-		// Player 0 turn
-		const setComputerMark = () => {
-			if (computerLogic()) return;
-
-			const getRandomPosition = () => {
-				return Math.floor(Math.random() * 3);
-			};
-
-			const row = getRandomPosition();
-			const col = getRandomPosition();
-
-			// if the space is free, cool. If not, dont pass the turn.
-			if (game.board[row][col] === null) {
-				setMark({ row, col }, player0);
-				console.log('Board: ', game.board);
-				checkWinner();
-				console.log('Winner: ', game.winner);
-				flattenedBoard = game.board.flat(Infinity);
-				return;
-			}
-
-			// ask computer choose another cell
-			setComputerMark();
-		};
+		// ask computer choose another cell
 		setComputerMark();
-	}
+	};
+
+	setTimeout(setComputerMark, 1300);
 };

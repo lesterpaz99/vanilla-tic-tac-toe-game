@@ -4,7 +4,7 @@ const checkRow = () => {
 	const result = {
 		isThreat: false,
 		isOpportunity: false,
-		position: { row: null, col: null },
+		position: [null, null],
 	};
 
 	const rowToAttack = game.board.findIndex((row) => row.join('') === '00');
@@ -12,7 +12,7 @@ const checkRow = () => {
 		const targetCol = game.board[rowToAttack].findIndex((col) => col === null);
 
 		result.isOpportunity = true;
-		result.position = { row: rowToAttack, col: targetCol };
+		result.position = [rowToAttack, targetCol];
 		return result;
 	}
 
@@ -21,7 +21,7 @@ const checkRow = () => {
 		const targetCol = game.board[rowToDefend].findIndex((col) => col === null);
 
 		result.isThreat = true;
-		result.position = { row: rowToDefend, col: targetCol };
+		result.position = [rowToDefend, targetCol];
 	}
 
 	return result;
@@ -32,24 +32,24 @@ const checkCol = () => {
 	const result = {
 		isThreat: false,
 		isOpportunity: false,
-		position: { row: null, col: null },
+		position: [null, null],
 	};
 
 	// opportunities first
 	for (let [i, row] of game.board.entries()) {
 		if (row1[i] === '0' && row2[i] === '0' && row3[i] === null) {
 			result.isOpportunity = true;
-			result.position = { row: 2, col: i };
+			result.position = [2, i];
 			break;
 		}
 		if (row1[i] === '0' && row3[i] === '0' && row2[i] === null) {
 			result.isOpportunity = true;
-			result.position = { row: 1, col: i };
+			result.position = [1, i];
 			break;
 		}
 		if (row2[i] === '0' && row3[i] === '0' && row1[i] === null) {
 			result.isOpportunity = true;
-			result.position = { row: 0, col: i };
+			result.position = [0, i];
 			break;
 		}
 	}
@@ -58,17 +58,17 @@ const checkCol = () => {
 		for (let [i, row] of game.board.entries()) {
 			if (row1[i] === 'X' && row2[i] === 'X' && row3[i] === null) {
 				result.isThreat = true;
-				result.position = { row: 2, col: i };
+				result.position = [2, i];
 				break;
 			}
 			if (row1[i] === 'X' && row3[i] === 'X' && row2[i] === null) {
 				result.isThreat = true;
-				result.position = { row: 1, col: i };
+				result.position = [1, 0];
 				break;
 			}
 			if (row2[i] === 'X' && row3[i] === 'X' && row1[i] === null) {
 				result.isThreat = true;
-				result.position = { row: 0, col: i };
+				result.position = [0, i];
 				break;
 			}
 		}
@@ -81,7 +81,7 @@ const checkDiagonal = () => {
 	let result = {
 		isThreat: false,
 		isOpportunity: false,
-		position: { row: null, col: null },
+		position: [null, null],
 	};
 	const [row1, row2, row3] = game.board;
 	const lineTopLeftToBottom = [row1[0], row2[1], row3[2]];
@@ -90,7 +90,7 @@ const checkDiagonal = () => {
 	if (lineTopLeftToBottom.join('') === '00') {
 		const colToAttack = lineTopLeftToBottom.findIndex((col) => col === null);
 		result.isOpportunity = true;
-		result.position = { row: colToAttack, col: colToAttack };
+		result.position = [colToAttack, colToAttack];
 	}
 
 	if (lineTopRightToBottom.join('') === 'XX') {
@@ -99,14 +99,13 @@ const checkDiagonal = () => {
 			.findIndex((col) => col === null);
 		const rowToDefend = colToDefend === 2 ? 0 : colToDefend === 0 ? 2 : 1;
 		result.isThreat = true;
-		result.position = { row: rowToDefend, col: colToDefend };
+		result.position = [rowToDefend, colToDefend];
 	}
 
 	return result;
 };
 
 export const computerLogic = () => {
-	debugger;
 	const {
 		isThreat: isRowThreat,
 		isOpportunity: isRowOpportunity,
