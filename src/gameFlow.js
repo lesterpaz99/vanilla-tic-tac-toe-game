@@ -1,4 +1,5 @@
 import JSConfetti from 'js-confetti';
+import { updateBoard, inactiveBoard, askUserChoice } from './updateGameUI.js';
 
 const confetti = new JSConfetti();
 
@@ -17,11 +18,6 @@ export const player0 = '0';
 const players = {
 	[playerX]: playerX,
 	[player0]: player0,
-};
-
-const updateBoard = ([row, col], player) => {
-	const cell = document.querySelector(`[data-cell="${row},${col}"]`);
-	cell.textContent = player;
 };
 
 export const setMark = ([row, col], playerMark) => {
@@ -49,6 +45,7 @@ export const checkWinner = () => {
 	row1.forEach((col, i) => {
 		if (row1[i] !== null && row1[i] === row2[i] && row1[i] === row3[i]) {
 			game.winner = players[col];
+			console.log(game.winner);
 			return;
 		}
 	});
@@ -63,13 +60,15 @@ export const checkWinner = () => {
 				? row1[0]
 				: row1[2];
 		game.winner = players[player];
+		console.log(game.winner);
 		return;
 	}
 };
 
 export const hasWinner = () => {
-	game.winner !== null ? true : false;
-	if (game.winner) {
+	if (game.winner !== null) {
+		inactiveBoard(askUserChoice);
 		confetti.addConfetti();
 	}
+	return game.winner !== null ? true : false;
 };

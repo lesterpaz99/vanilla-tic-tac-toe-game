@@ -7,8 +7,9 @@ import {
 	checkWinner,
 	hasWinner,
 } from './gameFlow.js';
+import { switchTurn } from './updateGameUI.js';
 
-const resetGame = () => {
+export const resetGame = () => {
 	game.board = [
 		[null, null, null],
 		[null, null, null],
@@ -17,53 +18,49 @@ const resetGame = () => {
 	game.winner = null;
 };
 
-// start
-export const startGame = () => {
-	const inactiveCells = document.querySelectorAll('.cell');
-	const arrCells = Array.from(inactiveCells);
+const playerXMove = (cellPosition) => {
+	const [row, col] = cellPosition;
+	setMark([row, col], playerX);
+	checkWinner();
+};
 
-	arrCells.forEach((cell) => {
-		cell.textContent = '';
-		cell.classList.remove('inactive');
-	});
+const player0Move = () => {
+	if (computerLogic()) return;
 
-	resetGame();
+	const getRandomPosition = () => {
+		return Math.floor(Math.random() * 3);
+	};
+
+	const row = getRandomPosition();
+	const col = getRandomPosition();
+
+	// if the space is free, cool. If not, don't pass the turn.
+	if (game.board[row][col] === null) {
+		setMark([row, col], player0);
+		checkWinner();
+		return;
+	}
+
+	// ask computer choose another cell
+	player0Move();
 };
 
 // game flow
 export const playTurn = (cellPosition) => {
-	// Player X move
-	const [row, col] = cellPosition;
-	if (game.board[row][col] === null) {
-		setMark([row, col], playerX);
-		checkWinner();
-	}
-
+	switchTurn('X');
+	playerXMove(cellPosition);
 	if (hasWinner()) {
+		// end game
 		return;
 	}
 
-	// Player 0 move
-	const setComputerMark = () => {
-		if (computerLogic()) return;
-
-		const getRandomPosition = () => {
-			return Math.floor(Math.random() * 3);
-		};
-
-		const row = getRandomPosition();
-		const col = getRandomPosition();
-
-		// if the space is free, cool. If not, dont pass the turn.
-		if (game.board[row][col] === null) {
-			setMark([row, col], player0);
-			checkWinner();
+	switchTurn('0');
+	setTimeout(() => {
+		player0Move();
+		if (hasWinner()) {
+			// end game
 			return;
 		}
-
-		// ask computer choose another cell
-		setComputerMark();
-	};
-
-	setTimeout(setComputerMark, 1300);
+		switchTurn('X');
+	}, 1000);
 };
