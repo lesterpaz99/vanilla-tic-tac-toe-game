@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/lesterpaz99/vanilla-tic-tac-toe-game/issues"
   },
-  "homepage": "https://github.com/lesterpaz99/vanilla-tic-tac-toe-game#readme"
+  "homepage": "https://github.com/lesterpaz99/vanilla-tic-tac-toe-game#readme",
+  "dependencies": {
+    "js-confetti": "^0.12.0"
+  }
 }
