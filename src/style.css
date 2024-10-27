@@ -38,6 +38,7 @@ body {
   align-items: center;
   margin-bottom: 1.5rem;
   font-size: 1.2rem;
+  color: #2E2E3A;
 }
 
 .player {
@@ -45,15 +46,19 @@ body {
   margin: 0 10px;
   padding: 5px 10px;
   border-radius: 6px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .player-x {
   color: #4ADE80;
+  border-bottom: 2px solid #4ADE80;
+  border-radius: 8px;
 }
 
-.player-o {
+.player-0 {
   color: #60A5FA;
+  border-bottom: 2px solid #60A5FA;
+  border-radius: 8px;
 }
 
 .vs {
@@ -86,7 +91,7 @@ body {
   color: #9CA3AF;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.6s ease;
 }
 
 .cell:not(.inactive):hover {
@@ -94,7 +99,7 @@ body {
 }
 
 .inactive {
-  background-color: transparent;
+  background-color: #22222f;
   transform: scale(.9);
   transition: all 0.6s ease;
   cursor: auto;
