@@ -1,3 +1,7 @@
+import JSConfetti from 'js-confetti';
+
+const confetti = new JSConfetti();
+
 export const game = {
 	board: [
 		[null, null, null],
@@ -63,4 +67,9 @@ export const checkWinner = () => {
 	}
 };
 
-export const hasWinner = () => (game.winner !== null ? true : false);
+export const hasWinner = () => {
+	game.winner !== null ? true : false;
+	if (game.winner) {
+		confetti.addConfetti();
+	}
+};
