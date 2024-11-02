@@ -53,6 +53,28 @@ const checkCol = () => {
 			break;
 		}
 	}
+	// const col1Str = [row1[0], row2[0], row3[0]];
+	// if (col1Str.join('') === '00') {
+	// 	const colToAttack = col1Str.findIndex((cell) => cell === null);
+	// 	result.isOpportunity = true;
+	// 	result.position = [0, colToAttack];
+	// 	return result;
+	// }
+
+	// const col2Str = [row1[1], row2[1], row3[1]];
+	// if (col2Str.join('') === '00') {
+	// 	const colToAttack = col2Str.findIndex((cell) => cell === null);
+	// 	result.isOpportunity = true;
+	// 	result.position = [1, colToAttack];
+	// 	return result;
+	// }
+	// const col3Str = [row1[2], row2[2], row3[2]];
+	// if (col3Str.join('') === '00') {
+	// 	const colToAttack = col3Str.findIndex((cell) => cell === null);
+	// 	result.isOpportunity = true;
+	// 	result.position = [2, colToAttack];
+	// 	return result;
+	// }
 
 	if (!result.isOpportunity) {
 		for (let [i, row] of game.board.entries()) {

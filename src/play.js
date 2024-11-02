@@ -6,15 +6,12 @@ import {
 	setMark,
 	checkWinner,
 	hasWinner,
+	endGame,
 } from './gameFlow.js';
 import { switchTurn } from './updateGameUI.js';
 
 export const resetGame = () => {
-	game.board = [
-		[null, null, null],
-		[null, null, null],
-		[null, null, null],
-	];
+	game.board.forEach((row) => row.fill(null));
 	game.winner = null;
 };
 
@@ -50,7 +47,7 @@ export const playTurn = (cellPosition) => {
 	switchTurn('X');
 	playerXMove(cellPosition);
 	if (hasWinner()) {
-		// end game
+		endGame();
 		return;
 	}
 
@@ -58,7 +55,7 @@ export const playTurn = (cellPosition) => {
 	setTimeout(() => {
 		player0Move();
 		if (hasWinner()) {
-			// end game
+			endGame();
 			return;
 		}
 		switchTurn('X');

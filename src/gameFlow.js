@@ -45,7 +45,6 @@ export const checkWinner = () => {
 	row1.forEach((col, i) => {
 		if (row1[i] !== null && row1[i] === row2[i] && row1[i] === row3[i]) {
 			game.winner = players[col];
-			console.log(game.winner);
 			return;
 		}
 	});
@@ -60,15 +59,13 @@ export const checkWinner = () => {
 				? row1[0]
 				: row1[2];
 		game.winner = players[player];
-		console.log(game.winner);
 		return;
 	}
 };
 
-export const hasWinner = () => {
-	if (game.winner !== null) {
-		inactiveBoard(askUserChoice);
-		confetti.addConfetti();
-	}
-	return game.winner !== null ? true : false;
+export const hasWinner = () => (game.winner !== null ? true : false);
+
+export const endGame = () => {
+	inactiveBoard(askUserChoice);
+	confetti.addConfetti();
 };
