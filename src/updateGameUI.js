@@ -12,10 +12,15 @@ export const startGame = () => {
 	arrCells.forEach((cell) => {
 		cell.textContent = '';
 		cell.classList.remove('inactive');
+
+		// class 'blocked' just to remove listener
+		cell.classList.remove('blocked');
 	});
 
 	playerX.classList.add('player-x');
+	playerX.textContent = 'Player X Turn';
 	player0.classList.remove('player-0');
+	player0.textContent = 'Player 0 Turn';
 
 	resetGame();
 };
@@ -33,7 +38,12 @@ export const switchTurn = (playerTurn) => {
 export const updateBoard = ([row, col], player) => {
 	const cell = document.querySelector(`[data-cell="${row},${col}"]`);
 	cell.textContent = player;
+
+	// class 'blocked' just to remove listener
+	cell.classList.toggle('blocked');
 };
+
+// reminder when it's a draw
 
 const updateWinnerText = () => {
 	if (game.winner == 'X') {
