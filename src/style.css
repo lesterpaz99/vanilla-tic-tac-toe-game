@@ -129,3 +129,8 @@ body {
 .play-button:hover {
   background-color: #4B5563;
 }
+
+.hide {
+  transition: all 0.4s ease-in-out;
+  display: none;
+}

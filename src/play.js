@@ -7,6 +7,7 @@ import {
 	checkWinner,
 	hasWinner,
 	endGame,
+	isFullBoard,
 } from './gameFlow.js';
 import { switchTurn } from './updateGameUI.js';
 
@@ -46,7 +47,7 @@ const player0Move = () => {
 export const playTurn = (cellPosition) => {
 	switchTurn('X');
 	playerXMove(cellPosition);
-	if (hasWinner()) {
+	if (hasWinner() || isFullBoard()) {
 		endGame();
 		return;
 	}
@@ -54,7 +55,7 @@ export const playTurn = (cellPosition) => {
 	switchTurn('0');
 	setTimeout(() => {
 		player0Move();
-		if (hasWinner()) {
+		if (hasWinner() || isFullBoard()) {
 			endGame();
 			return;
 		}

@@ -65,7 +65,15 @@ export const checkWinner = () => {
 
 export const hasWinner = () => (game.winner !== null ? true : false);
 
+export const isFullBoard = () => {
+	const flattedBoard = game.board.flat(Infinity);
+	return flattedBoard.every((cell) => cell !== null);
+};
+
 export const endGame = () => {
 	inactiveBoard(askUserChoice);
+
+	if (game.winner === null) return;
+
 	confetti.addConfetti();
 };
