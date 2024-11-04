@@ -36,7 +36,7 @@ const checkCol = () => {
 	};
 
 	// opportunities first
-	for (let [i, row] of game.board.entries()) {
+	for (let [i, _] of game.board.entries()) {
 		if (row1[i] === '0' && row2[i] === '0' && row3[i] === null) {
 			result.isOpportunity = true;
 			result.position = [2, i];
@@ -77,7 +77,7 @@ const checkCol = () => {
 	// }
 
 	if (!result.isOpportunity) {
-		for (let [i, row] of game.board.entries()) {
+		for (let [i, _] of game.board.entries()) {
 			if (row1[i] === 'X' && row2[i] === 'X' && row3[i] === null) {
 				result.isThreat = true;
 				result.position = [2, i];
